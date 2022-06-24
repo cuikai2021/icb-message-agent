@@ -1,7 +1,7 @@
 package client
 
 import (
-	sendpb "icb-message-agent/sendpb"
+	sendpb "github.com/cuikai2021/icb-message-agent/agent/go/sendpb"
 	"sync"
 )
 

@@ -1,7 +1,7 @@
 package client
 
 import (
-	sendpb "icb-message-agent/sendpb"
+	sendpb "github.com/cuikai2021/icb-message-agent/agent/go/sendpb"
 	"log"
 	"sync"
 	"time"
@@ -67,7 +67,7 @@ func (s *batchSender) send(p *packet) {
 }
 
 func (s *batchSender) initSender() {
-	tick := time.NewTicker(time.Second * 5)
+	tick := time.NewTicker(time.Second)
 	for {
 		if s.sender == nil {
 			sender, err := NewGRPCSender(s.serverAddr)
@@ -90,7 +90,7 @@ func (s *batchSender) initSender() {
 
 // 当一定时间内，包容量没有达到，则也会默认发送已在缓存中的messages
 func (s *batchSender) backgroundSendPacket() {
-	tick := time.NewTicker(time.Second * 5)
+	tick := time.NewTicker(time.Second)
 	for {
 		select {
 		case <-tick.C:

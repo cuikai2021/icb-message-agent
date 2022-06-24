@@ -2,11 +2,10 @@ package client
 
 import (
 	"context"
+	sendpb "github.com/cuikai2021/icb-message-agent/agent/go/sendpb"
 	"log"
 	"os"
 	"time"
-
-	sendpb "icb-message-agent/sendpb"
 
 	"google.golang.org/grpc"
 )

@@ -3,8 +3,7 @@ package client
 import (
 	"errors"
 	"fmt"
-	sendpb "icb-message-agent/sendpb"
-	"os"
+	sendpb "github.com/cuikai2021/icb-message-agent/agent/go/sendpb"
 )
 
 var (
@@ -13,12 +12,12 @@ var (
 )
 
 func init() {
-	env := os.Getenv("DEPLOY_MODEL")
-	if env == "staging" {
-		sender = NewBatchSender("ginkgo.internal.icbench.com:1443")
-	} else {
-		sender = NewBatchSender("ginkgo.grpc.icbench.com:1443")
-	}
+	//env := os.Getenv("DEPLOY_MODEL")
+	//if env == "staging" {
+	//	sender = NewBatchSender("ginkgo.internal.icbench.com:1443")
+	//} else {
+	//	sender = NewBatchSender("ginkgo.grpc.icbench.com:1443")
+	//}
 
 	sender = NewBatchSender("127.0.0.1:8776")
 
