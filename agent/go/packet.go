@@ -1,4 +1,4 @@
-package client
+package agent
 
 import (
 	sendpb "github.com/cuikai2021/icb-message-agent/agent/go/sendpb"
@@ -10,7 +10,7 @@ var (
 
 	_packetPool = sync.Pool{New: func() interface{} {
 		return &packet{
-			messages: make([]*sendpb.Message, _maxPacketSize),
+			messages: make([]*sendpb.Message, 0),
 		}
 	}}
 )

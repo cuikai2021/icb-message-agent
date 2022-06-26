@@ -1,4 +1,4 @@
-package client
+package agent
 
 import (
 	"errors"
@@ -31,9 +31,8 @@ func SendMessage(level sendpb.MessageLevel, format string, args ...interface{}) 
 		return errors.New(fmt.Sprintf("msg %s should be reviewed before send", format))
 	}
 
-	msg := fmt.Sprintf(format, args)
 	return sender.Send(&sendpb.Message{
 		Level:   level,
-		Message: msg,
+		Message: fmt.Sprintf(format, args...),
 	})
 }

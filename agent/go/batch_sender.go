@@ -1,4 +1,4 @@
-package client
+package agent
 
 import (
 	sendpb "github.com/cuikai2021/icb-message-agent/agent/go/sendpb"
