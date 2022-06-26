@@ -8,7 +8,7 @@ The messages sent by the tools should  be in the style of format string(message 
 
 Before using a message template, it should be added to the `templates` .
 
-[toc]
+
 
 ## message templates
 
@@ -44,11 +44,16 @@ rpc SendMessage (SendMessageRequest) returns (google.protobuf.Empty) {
 The main logic of the agent
 
 - Check the legitimacy of the message by message templates
+
 - Send the message to customer by Ginkgo gRPC
+
+
 
 ### message legal checker
 
-The policy of the checker is exact string matching, messages which that fail the legality check are discarded..
+The policy of the checker is exact string matching, messages which that fail the legality check are discarded.
+
+
 
 ### gRPC sender
 
@@ -63,7 +68,10 @@ Things that need special clarification
 - The Running taskId
   In the request of `SendMessage`, the value for `taskId` can get from environment variable `ICB_RUN_ID`.
 
+
+
 ### batch sender(Optional)
 
 To reduce the number of server side requests for sending messages, agent could use client side cache for sending message in batches.
+
 
