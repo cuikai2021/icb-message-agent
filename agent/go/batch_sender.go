@@ -1,7 +1,7 @@
 package agent
 
 import (
-	sendpb "github.com/cuikai2021/icb-message-agent/agent/go/sendpb"
+	sendpb "github.com/ICBench/icb-message-agent/agent/go/sendpb"
 	"log"
 	"os"
 	"sync"
@@ -82,8 +82,6 @@ func (s *batchSender) initSender() {
 				if env == "staging" {
 					serverAddr = "ginkgo.internal.icbench.com:1443"
 				}
-
-				serverAddr = "127.0.0.1:8776" //TODO: for test
 
 				sender, err := NewGRPCSender(serverAddr)
 				if err != nil {

@@ -1,4 +1,4 @@
-module github.com/cuikai2021/icb-message-agent/agent/go
+module github.com/ICBench/icb-message-agent/agent/go
 
 go 1.17
 

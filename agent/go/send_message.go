@@ -3,7 +3,7 @@ package agent
 import (
 	"errors"
 	"fmt"
-	sendpb "github.com/cuikai2021/icb-message-agent/agent/go/sendpb"
+	sendpb "github.com/ICBench/icb-message-agent/agent/go/sendpb"
 	"os"
 )
 

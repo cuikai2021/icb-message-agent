@@ -3,7 +3,8 @@ package agent
 import (
 	"context"
 	"fmt"
-	sendpb "github.com/cuikai2021/icb-message-agent/agent/go/sendpb"
+	sendpb "github.com/ICBench/icb-message-agent/agent/go/sendpb"
+	"google.golang.org/grpc/credentials"
 	"google.golang.org/grpc/metadata"
 	"log"
 	"os"
@@ -25,10 +26,8 @@ type GRRCSend struct {
 
 func NewGRPCSender(serverAddr string) (*GRRCSend, error) {
 	ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
-	//creds := credentials.NewClientTLSFromCert(nil, "")
-	//conn, err := grpc.DialContext(ctx, serverAddr, grpc.WithInsecure(), grpc.WithTransportCredentials(creds))
-
-	conn, err := grpc.DialContext(ctx, serverAddr, grpc.WithInsecure())
+	creds := credentials.NewClientTLSFromCert(nil, "")
+	conn, err := grpc.DialContext(ctx, serverAddr, grpc.WithInsecure(), grpc.WithTransportCredentials(creds))
 	if err != nil {
 		return nil, err
 	}
