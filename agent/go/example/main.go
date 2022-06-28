@@ -7,6 +7,8 @@ import (
 )
 
 func main() {
-	agent.SendMessage(sendpb.MessageLevel_INFO, "This is a test legal message %s %s", "arg1", "arg2")
+	for i := 0; i < 20; i++ {
+		agent.SendMessage(sendpb.MessageLevel_INFO, "This is a test legal message %s %s", "arg1", "arg2")
+	}
 	time.Sleep(10 * time.Second)
 }

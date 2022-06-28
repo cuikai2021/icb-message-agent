@@ -59,7 +59,7 @@ The policy of the checker is exact string matching, messages which that fail the
 
 What we need to be done in gRPC sender are wrap the Request body and send gRPC request to Ginkgo Server.
 
-Things that need special clarification
+Items that need special explanation are as follows
 
 - The Ginkgo Server Address
   The environment variable `DEPLOY_MODEL` is used to identify the current deployment environment.
@@ -67,6 +67,15 @@ Things that need special clarification
 
 - The Running taskId
   In the request of `SendMessage`, the value for `taskId` can get from environment variable `ICB_RUN_ID`.
+
+- Token for Ginkgo request
+  User token can get from environment variable `ICB_USER_TOKEN`, and need to set into authorization header.
+  
+  go example
+  ```go
+  header := metadata.Pairs("authorization", fmt.Sprintf("bearer %s", os.Getenv("ICB_USER_TOKEN")))
+  headerCtx := metadata.NewOutgoingContext(context.Background(), header)
+  ```
 
 
 

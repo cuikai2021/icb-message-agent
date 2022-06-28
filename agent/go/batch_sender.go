@@ -3,6 +3,7 @@ package agent
 import (
 	sendpb "github.com/cuikai2021/icb-message-agent/agent/go/sendpb"
 	"log"
+	"os"
 	"sync"
 	"time"
 )
@@ -10,7 +11,7 @@ import (
 type batchSender struct {
 	mutex sync.Mutex
 
-	serverAddr string
+	senderType string
 
 	sender Sender
 	packet *packet
@@ -18,9 +19,9 @@ type batchSender struct {
 	once sync.Once
 }
 
-func NewBatchSender(serverAddr string) *batchSender {
+func NewBatchSender(senderType string) *batchSender {
 	s := &batchSender{
-		serverAddr: serverAddr,
+		senderType: senderType,
 	}
 
 	s.once.Do(func() {
@@ -70,16 +71,31 @@ func (s *batchSender) initSender() {
 	tick := time.NewTicker(time.Second)
 	for {
 		if s.sender == nil {
-			sender, err := NewGRPCSender(s.serverAddr)
-			if err != nil {
-				log.Printf("init grpc push error %s\n", err.Error())
-				goto next
-			}
-			s.sender = sender
+			if s.senderType == "local" {
+				s.sender = NewLocalSender()
+				log.Print("init local sender success \n")
+				tick.Stop()
+				return
+			} else {
+				env := os.Getenv("DEPLOY_MODEL")
+				serverAddr := "ginkgo.grpc.icbench.com:1443"
+				if env == "staging" {
+					serverAddr = "ginkgo.internal.icbench.com:1443"
+				}
 
-			log.Print("init grpc sender success \n")
-			tick.Stop()
-			return
+				serverAddr = "127.0.0.1:8776" //TODO: for test
+
+				sender, err := NewGRPCSender(serverAddr)
+				if err != nil {
+					log.Printf("init grpc push error %s\n", err.Error())
+					goto next
+				}
+				s.sender = sender
+
+				log.Print("init grpc sender success \n")
+				tick.Stop()
+				return
+			}
 		}
 	next:
 		select {
