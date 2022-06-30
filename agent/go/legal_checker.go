@@ -1,15 +1,17 @@
 package agent
 
 import (
-	"bufio"
+	"embed"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"strings"
 )
+
+//go:embed ../../templates/*
+var templates embed.FS
 
 type legalChecker struct {
 	msgTemplates map[string]bool
@@ -37,27 +39,25 @@ func (c *legalChecker) IsLegal(message string) bool {
 }
 
 func (c *legalChecker) loadMsgTemplates() (err error) {
-	dir := GetAppPath()
-	fmt.Println("APPPath:", dir)
-
-	templatePath := dir + "/templates"
-	files, err := ioutil.ReadDir(templatePath)
-	if err != nil {
-		return err
-	}
-
-	for _, file := range files {
-		inFile, err := os.Open(filepath.Join(templatePath, file.Name()))
-		if err != nil {
-			return err
-		}
-		defer inFile.Close()
-
-		scanner := bufio.NewScanner(inFile)
-		for scanner.Scan() {
-			c.msgTemplates[scanner.Text()] = true
-		}
-	}
+	content, _ := templates.ReadFile("messages.txt")
+	fmt.Println(content)
+	//files, err := ioutil.ReadDir(templatePath)
+	//if err != nil {
+	//	return err
+	//}
+	//
+	//for _, file := range files {
+	//	inFile, err := os.Open(filepath.Join(templatePath, file.Name()))
+	//	if err != nil {
+	//		return err
+	//	}
+	//	defer inFile.Close()
+	//
+	//	scanner := bufio.NewScanner(inFile)
+	//	for scanner.Scan() {
+	//		c.msgTemplates[scanner.Text()] = true
+	//	}
+	//}
 
 	return nil
 }
