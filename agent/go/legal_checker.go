@@ -35,10 +35,9 @@ func (c *legalChecker) IsLegal(message string) bool {
 }
 
 func (c *legalChecker) loadMsgTemplates() (err error) {
-	dir, _ := os.Getwd()
-	fmt.Println("当前路径：", dir)
+	templatePath, _ := filepath.Abs("../../templates")
+	fmt.Println(templatePath)
 
-	templatePath := dir + "/templates"
 	files, err := ioutil.ReadDir(templatePath)
 	if err != nil {
 		return err
