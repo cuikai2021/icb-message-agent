@@ -6,7 +6,9 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"os/exec"
 	"path/filepath"
+	"strings"
 )
 
 type legalChecker struct {
@@ -35,9 +37,10 @@ func (c *legalChecker) IsLegal(message string) bool {
 }
 
 func (c *legalChecker) loadMsgTemplates() (err error) {
-	templatePath, _ := filepath.Abs("../../templates")
-	fmt.Println(templatePath)
+	dir := GetAppPath()
+	fmt.Println("APPPath:", dir)
 
+	templatePath := dir + "/templates"
 	files, err := ioutil.ReadDir(templatePath)
 	if err != nil {
 		return err
@@ -57,4 +60,12 @@ func (c *legalChecker) loadMsgTemplates() (err error) {
 	}
 
 	return nil
+}
+
+func GetAppPath() string {
+	file, _ := exec.LookPath(os.Args[0])
+	path, _ := filepath.Abs(file)
+	index := strings.LastIndex(path, string(os.PathSeparator))
+
+	return path[:index]
 }
