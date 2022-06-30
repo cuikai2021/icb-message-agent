@@ -2,6 +2,7 @@ package agent
 
 import (
 	"bufio"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"os"
@@ -34,7 +35,10 @@ func (c *legalChecker) IsLegal(message string) bool {
 }
 
 func (c *legalChecker) loadMsgTemplates() (err error) {
-	templatePath := "../../templates"
+	dir, _ := os.Getwd()
+	fmt.Println("当前路径：", dir)
+
+	templatePath := dir + "/templates"
 	files, err := ioutil.ReadDir(templatePath)
 	if err != nil {
 		return err
