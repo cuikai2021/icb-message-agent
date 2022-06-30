@@ -1,7 +1,7 @@
 package agent
 
 import (
-	sendpb "github.com/ICBench/icb-message-agent/agent/go/sendpb"
+	sendpb "github.com/cuikai2021/icb-message-agent/agent/go/sendpb"
 	"log"
 	"os"
 	"sync"

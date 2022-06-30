@@ -3,7 +3,7 @@ package agent
 import (
 	"context"
 	"fmt"
-	sendpb "github.com/ICBench/icb-message-agent/agent/go/sendpb"
+	sendpb "github.com/cuikai2021/icb-message-agent/agent/go/sendpb"
 	"google.golang.org/grpc/credentials"
 	"google.golang.org/grpc/metadata"
 	"log"
