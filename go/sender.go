@@ -3,7 +3,7 @@ package agent
 import (
 	"context"
 	"fmt"
-	sendpb "github.com/cuikai2021/icb-message-agent/agent/go/sendpb"
+	proto "github.com/cuikai2021/icb-message-agent/proto"
 	"google.golang.org/grpc/credentials"
 	"google.golang.org/grpc/metadata"
 	"log"
@@ -14,12 +14,12 @@ import (
 )
 
 type Sender interface {
-	SendMessages(messages []*sendpb.Message) error
+	SendMessages(messages []*proto.Message) error
 	Close() error
 }
 
 type GRRCSend struct {
-	cli   sendpb.TaskMessageServiceClient
+	cli   proto.TaskMessageServiceClient
 	conn  *grpc.ClientConn
 	cChan chan struct{} //保证串行调用，确保messages顺序性
 }
@@ -27,13 +27,13 @@ type GRRCSend struct {
 func NewGRPCSender(serverAddr string) (*GRRCSend, error) {
 	ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
 	creds := credentials.NewClientTLSFromCert(nil, "")
-	conn, err := grpc.DialContext(ctx, serverAddr, grpc.WithInsecure(), grpc.WithTransportCredentials(creds))
+	conn, err := grpc.DialContext(ctx, serverAddr, grpc.WithTransportCredentials(creds))
 	if err != nil {
 		return nil, err
 	}
 
 	gp := &GRRCSend{
-		cli:   sendpb.NewTaskMessageServiceClient(conn),
+		cli:   proto.NewTaskMessageServiceClient(conn),
 		conn:  conn,
 		cChan: make(chan struct{}, 1),
 	}
@@ -41,7 +41,7 @@ func NewGRPCSender(serverAddr string) (*GRRCSend, error) {
 	return gp, nil
 }
 
-func (gp *GRRCSend) SendMessages(messages []*sendpb.Message) error {
+func (gp *GRRCSend) SendMessages(messages []*proto.Message) error {
 	gp.cChan <- struct{}{}
 	defer func() {
 		<-gp.cChan
@@ -58,8 +58,8 @@ func (gp *GRRCSend) SendMessages(messages []*sendpb.Message) error {
 	return nil
 }
 
-func (gp *GRRCSend) send(ctx context.Context, messages []*sendpb.Message) error {
-	_, err := gp.cli.SendMessage(ctx, &sendpb.SendMessageRequest{
+func (gp *GRRCSend) send(ctx context.Context, messages []*proto.Message) error {
+	_, err := gp.cli.SendMessage(ctx, &proto.SendMessageRequest{
 		TaskId:   os.Getenv("ICB_RUN_ID"), //从环境变量中获取RunId
 		Messages: messages,
 	})
@@ -88,7 +88,7 @@ func NewLocalSender() *LocalSend {
 	}
 }
 
-func (l *LocalSend) SendMessages(messages []*sendpb.Message) error {
+func (l *LocalSend) SendMessages(messages []*proto.Message) error {
 	l.cChan <- struct{}{}
 	defer func() {
 		<-l.cChan
@@ -101,7 +101,7 @@ func (l *LocalSend) SendMessages(messages []*sendpb.Message) error {
 	return nil
 }
 
-func (l *LocalSend) send(messages []*sendpb.Message) error {
+func (l *LocalSend) send(messages []*proto.Message) error {
 	for _, message := range messages {
 		fmt.Println(fmt.Sprintf("[%s] %s", message.Level.String(), message.Message))
 	}

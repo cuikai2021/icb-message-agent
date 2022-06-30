@@ -1,0 +1,6 @@
+[submodule "message-template"]
+	path = go/icb-message-templates
+	url = git@github.com:cuikai2021/icb-message-templates.git
+[submodule "template"]
+	path = cpp/icb-message-templates
+	url = git@github.com:cuikai2021/icb-message-templates.git

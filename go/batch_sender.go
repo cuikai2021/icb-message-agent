@@ -1,7 +1,7 @@
 package agent
 
 import (
-	sendpb "github.com/cuikai2021/icb-message-agent/agent/go/sendpb"
+	proto "github.com/cuikai2021/icb-message-agent/proto"
 	"log"
 	"os"
 	"sync"
@@ -31,7 +31,7 @@ func NewBatchSender(senderType string) *batchSender {
 	return s
 }
 
-func (s *batchSender) Send(message *sendpb.Message) (err error) {
+func (s *batchSender) Send(message *proto.Message) (err error) {
 	s.mutex.Lock()
 	if s.packet == nil {
 		s.packet = newPacket()

@@ -1,7 +1,7 @@
 package agent
 
 import (
-	sendpb "github.com/cuikai2021/icb-message-agent/agent/go/sendpb"
+	proto "github.com/cuikai2021/icb-message-agent/proto"
 	"sync"
 )
 
@@ -10,13 +10,13 @@ var (
 
 	_packetPool = sync.Pool{New: func() interface{} {
 		return &packet{
-			messages: make([]*sendpb.Message, 0),
+			messages: make([]*proto.Message, 0),
 		}
 	}}
 )
 
 type packet struct {
-	messages []*sendpb.Message
+	messages []*proto.Message
 	isFull   bool
 }
 
@@ -26,7 +26,7 @@ func (p *packet) free() {
 	_packetPool.Put(p)
 }
 
-func (p *packet) append(msg *sendpb.Message) *packet {
+func (p *packet) append(msg *proto.Message) *packet {
 	p.messages = append(p.messages, msg)
 	if _maxPacketSize <= len(p.messages) {
 		p.isFull = true

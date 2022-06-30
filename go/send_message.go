@@ -3,7 +3,7 @@ package agent
 import (
 	"errors"
 	"fmt"
-	sendpb "github.com/cuikai2021/icb-message-agent/agent/go/sendpb"
+	proto "github.com/cuikai2021/icb-message-agent/proto"
 	"os"
 )
 
@@ -19,13 +19,13 @@ func init() {
 }
 
 // SendMessage interface for sendMessage
-func SendMessage(level sendpb.MessageLevel, format string, args ...interface{}) (err error) {
+func SendMessage(level proto.MessageLevel, format string, args ...interface{}) (err error) {
 
 	if !checker.IsLegal(format) {
 		return errors.New(fmt.Sprintf("msg %s should be reviewed before send", format))
 	}
 
-	return sender.Send(&sendpb.Message{
+	return sender.Send(&proto.Message{
 		Level:   level,
 		Message: fmt.Sprintf(format, args...),
 	})
