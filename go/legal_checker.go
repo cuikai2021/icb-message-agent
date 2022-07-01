@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"embed"
 	_ "embed"
-	"fmt"
 	"log"
 	"path"
 	"strings"
@@ -48,8 +47,6 @@ func (c *legalChecker) loadMsgTemplates() (err error) {
 			c.msgTemplates[templateLine] = true
 		}
 	}
-
-	fmt.Printf("%v", c.msgTemplates)
 
 	return nil
 }

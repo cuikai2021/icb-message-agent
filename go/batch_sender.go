@@ -82,6 +82,7 @@ func (s *batchSender) initSender() {
 				if env == "staging" {
 					serverAddr = "ginkgo.internal.icbench.com:1443"
 				}
+				serverAddr = "127.0.0.1:8776"
 
 				sender, err := NewGRPCSender(serverAddr)
 				if err != nil {

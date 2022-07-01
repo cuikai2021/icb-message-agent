@@ -30,3 +30,15 @@ func SendMessage(level proto.MessageLevel, format string, args ...interface{}) (
 		Message: fmt.Sprintf(format, args...),
 	})
 }
+
+func SendMessageWithTemplate(level proto.MessageLevel, format string, msg string) (err error) {
+
+	if !checker.IsLegal(format) {
+		return errors.New(fmt.Sprintf("msg %s should be reviewed before send", format))
+	}
+
+	return sender.Send(&proto.Message{
+		Level:   level,
+		Message: msg,
+	})
+}
