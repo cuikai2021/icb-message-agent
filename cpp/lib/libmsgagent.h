@@ -68,7 +68,6 @@ typedef struct { void *data; GoInt len; GoInt cap; } GoSlice;
 extern "C" {
 #endif
 
-extern void SendMessage();
 extern void SendMessageNew(GoInt32 level, GoString msgTemplate, GoString message);
 
 #ifdef __cplusplus
