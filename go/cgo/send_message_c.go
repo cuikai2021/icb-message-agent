@@ -15,8 +15,8 @@ const (
 	MessageLevel_ERROR MessageLevel = 2
 )
 
-//export SendMessageNew
-func SendMessageNew(level MessageLevel, msgTemplate string, message string) {
+//export SendMessage
+func SendMessage(level MessageLevel, msgTemplate string, message string) {
 	agent.SendMessageWithTemplate(proto.MessageLevel(level), msgTemplate, message)
 }
 

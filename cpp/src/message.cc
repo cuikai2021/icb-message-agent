@@ -7,7 +7,7 @@ namespace message {
     template<typename... Args>
     void sendMsg(level_enum level, const std::string &msgTemplate, const Args &... args) {
         std::string msg = string_format(msgTemplate, args ...);
-        SendMessageNew(level, buildGoString(msgTemplate.c_str(), msgTemplate.size()),
+        SendMessage(level, buildGoString(msgTemplate.c_str(), msgTemplate.size()),
                        buildGoString(msg.c_str(), msg.size()));
     }
 
