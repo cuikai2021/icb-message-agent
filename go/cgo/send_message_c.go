@@ -17,7 +17,11 @@ const (
 
 //export SendMessage
 func SendMessage(level MessageLevel, msgTemplate string, message string) {
-	agent.SendMessageWithTemplate(proto.MessageLevel(level), msgTemplate, message)
+	msgGo := make([]byte, len(message))
+	copy(msgGo, message)
+	msgTemplateGo := make([]byte, len(msgTemplate))
+	copy(msgTemplateGo, msgTemplateGo)
+	agent.SendMessageWithTemplate(proto.MessageLevel(level), string(msgTemplateGo), string(msgGo))
 }
 
 func main() {
